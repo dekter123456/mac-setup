@@ -22,7 +22,12 @@ section() { echo -e "\n${BLUE}════════════════�
 install_formula() {
   local pkg=$1
   if brew list "$pkg" &>/dev/null; then
-    log "$pkg already installed"
+    info "Upgrading $pkg to latest..."
+    if brew upgrade "$pkg" 2>/dev/null; then
+      log "$pkg upgraded"
+    else
+      log "$pkg already at latest version"
+    fi
   else
     info "Installing $pkg..."
     if brew install "$pkg"; then
@@ -37,7 +42,12 @@ install_cask() {
   local app=$1
   local label=${2:-$1}
   if brew list --cask "$app" &>/dev/null; then
-    log "$label already installed"
+    info "Upgrading $label to latest..."
+    if brew upgrade --cask "$app" 2>/dev/null; then
+      log "$label upgraded"
+    else
+      log "$label already at latest version"
+    fi
   else
     info "Installing $label..."
     if brew install --cask "$app"; then
@@ -90,9 +100,9 @@ if ! command -v brew &>/dev/null; then
   log "Homebrew installed"
 else
   log "Homebrew already installed"
-  info "Updating Homebrew..."
-  brew update
 fi
+info "Updating Homebrew formulae..."
+brew update
 
 # ── CLI Tools & Languages ─────────────────────────────────────
 section "Step 3 — CLI Tools & Languages"
