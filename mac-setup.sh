@@ -179,6 +179,15 @@ else
   install_vscode_ext "dbaeumer.vscode-eslint"              "ESLint (JavaScript/TypeScript)"
   install_vscode_ext "esbenp.prettier-vscode"              "Prettier (code formatter)"
 
+  # ── React / JavaScript / TypeScript ──
+  install_vscode_ext "dsznajder.es7-react-js-snippets"     "ES7+ React/Redux Snippets"
+  install_vscode_ext "ms-vscode.vscode-typescript-next"    "TypeScript Nightly (latest TS features)"
+  install_vscode_ext "bradlc.vscode-tailwindcss"           "Tailwind CSS IntelliSense"
+  install_vscode_ext "styled-components.vscode-styled-components" "Styled Components"
+  install_vscode_ext "wix.vscode-import-cost"              "Import Cost (shows bundle size)"
+  install_vscode_ext "Zignd.html-css-class-completion"     "CSS Class IntelliSense"
+  install_vscode_ext "formulahendry.auto-close-tag"        "Auto Close Tag"
+
   # ── DevOps & Cloud ──
   install_vscode_ext "ms-azuretools.vscode-docker"         "Docker"
   install_vscode_ext "amazonwebservices.aws-toolkit-vscode" "AWS Toolkit"
