@@ -144,8 +144,62 @@ install_cask "fork"                "Fork (Git GUI)"
 install_cask "dbeaver-community"   "DBeaver"
 install_cask "docker"              "Docker Desktop"
 
+# ── VS Code Extensions ────────────────────────────────────────
+section "Step 5 — VS Code Extensions"
+
+install_vscode_ext() {
+  local ext=$1
+  local label=$2
+  if code --list-extensions 2>/dev/null | grep -qi "^${ext}$"; then
+    log "$label already installed"
+  else
+    info "Installing $label..."
+    if code --install-extension "$ext" --force &>/dev/null; then
+      log "$label installed"
+    else
+      error "$label failed to install"
+    fi
+  fi
+}
+
+if ! command -v code &>/dev/null; then
+  warn "VS Code 'code' command not found. Open VS Code → Cmd+Shift+P → 'Shell Command: Install code in PATH', then re-run this script."
+else
+  # ── AI Assistants ──
+  install_vscode_ext "saoudrizwan.claude-dev"              "Cline (Claude AI Coding Agent)"
+  install_vscode_ext "GitHub.copilot"                      "GitHub Copilot"
+  install_vscode_ext "GitHub.copilot-chat"                 "GitHub Copilot Chat"
+
+  # ── Languages ──
+  install_vscode_ext "golang.go"                           "Go"
+  install_vscode_ext "ms-python.python"                    "Python"
+  install_vscode_ext "ms-python.vscode-pylance"            "Pylance (Python type checking)"
+  install_vscode_ext "ms-python.black-formatter"           "Black (Python formatter)"
+  install_vscode_ext "vscjava.vscode-java-pack"            "Java Extension Pack"
+  install_vscode_ext "dbaeumer.vscode-eslint"              "ESLint (JavaScript/TypeScript)"
+  install_vscode_ext "esbenp.prettier-vscode"              "Prettier (code formatter)"
+
+  # ── DevOps & Cloud ──
+  install_vscode_ext "ms-azuretools.vscode-docker"         "Docker"
+  install_vscode_ext "amazonwebservices.aws-toolkit-vscode" "AWS Toolkit"
+  install_vscode_ext "ms-kubernetes-tools.vscode-kubernetes-tools" "Kubernetes"
+
+  # ── Git ──
+  install_vscode_ext "eamodio.gitlens"                     "GitLens (Git supercharged)"
+
+  # ── Productivity ──
+  install_vscode_ext "usernamehw.errorlens"                "Error Lens (inline errors)"
+  install_vscode_ext "christian-kohler.path-intellisense"  "Path IntelliSense"
+  install_vscode_ext "formulahendry.auto-rename-tag"       "Auto Rename Tag (HTML/JSX)"
+  install_vscode_ext "oderwat.indent-rainbow"              "Indent Rainbow"
+  install_vscode_ext "pkief.material-icon-theme"           "Material Icon Theme"
+  install_vscode_ext "streetsidesoftware.code-spell-checker" "Code Spell Checker"
+
+  log "VS Code extensions done"
+fi
+
 # ── Git Configuration ─────────────────────────────────────────
-section "Step 5 — Git Configuration"
+section "Step 6 — Git Configuration"
 CURRENT_NAME=$(git config --global user.name 2>/dev/null || echo "")
 CURRENT_EMAIL=$(git config --global user.email 2>/dev/null || echo "")
 
@@ -171,7 +225,7 @@ if [[ -z "$CURRENT_NAME" ]]; then
 fi
 
 # ── SSH Key ───────────────────────────────────────────────────
-section "Step 6 — SSH Key"
+section "Step 7 — SSH Key"
 if [ ! -f ~/.ssh/id_ed25519 ]; then
   read -p "Generate SSH key for GitHub/GitLab? (y/n): " GEN_SSH
   if [[ "$GEN_SSH" == "y" ]]; then
@@ -196,7 +250,7 @@ else
 fi
 
 # ── macOS Settings ────────────────────────────────────────────
-section "Step 7 — macOS Tweaks"
+section "Step 8 — macOS Tweaks"
 info "Applying sensible macOS defaults..."
 
 # Finder
@@ -226,7 +280,7 @@ killall Finder Dock 2>/dev/null || true
 log "macOS settings applied"
 
 # ── Java PATH Setup ───────────────────────────────────────────
-section "Step 8 — Java PATH Setup"
+section "Step 9 — Java PATH Setup"
 JAVA_HOME_LINE='export JAVA_HOME=$(/usr/libexec/java_home)'
 if ! grep -q "JAVA_HOME" ~/.zshrc 2>/dev/null; then
   echo "" >> ~/.zshrc
